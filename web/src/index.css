@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #003087;
+    --primary-foreground: #ffffff;
+    --accent: #009cde;
+    --accent-foreground: #ffffff;
+    --background: #fafbfc;
+    --foreground: #0f172a;
+    /* Motion & depth */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+    --duration-fast: 200ms;
+    --duration-normal: 350ms;
+    --duration-slow: 600ms;
+    --shadow-soft: 0 4px 24px -4px rgba(0, 48, 135, 0.08), 0 8px 48px -8px rgba(0, 48, 135, 0.06);
+    --shadow-glow: 0 0 60px -12px rgba(0, 48, 135, 0.25);
+    --radius-card: 1rem;
+    --radius-button: 0.75rem;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+  /* Focus visible for keyboard users */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+/* Skip link: visually hidden until focused */
+.skip-link {
+  @apply sr-only;
+}
+.skip-link:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: nowrap;
+  border-width: 0;
+  @apply rounded-xl bg-primary text-white font-medium outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* Keyframes */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes scroll-bounce {
+  0%, 100% { opacity: 0.4; transform: translateY(0) scaleY(0.6); }
+  50% { opacity: 1; transform: translateY(6px) scaleY(1); }
+}
+@keyframes line-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up var(--duration-slow) var(--ease-out-expo) forwards;
+  }
+  .animate-float {
+    animation: float 4s var(--ease-in-out-smooth) infinite;
+  }
+  .animate-shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Decorative gradient orbs (use as bg) */
+.gradient-orb {
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 156, 222, 0.12), transparent 60%);
+}
+.gradient-orb-bottom {
+  background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 48, 135, 0.06), transparent 60%);
+}
+.mesh-grid {
+  background-image:
+    linear-gradient(rgba(0, 48, 135, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 48, 135, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Hero headline accent: white shade gradient with glow */
+.hero-headline-accent {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.15));
+}
+
+/* Liquid glass: clear glass, minimal fog – light blur + very transparent fill */
+.liquid-glass {
+  /* Fallback when backdrop-filter is not supported */
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+}
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.14);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  }
+}
